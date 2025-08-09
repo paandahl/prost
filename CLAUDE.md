@@ -58,7 +58,7 @@ The `sample/` directory demonstrates a complete web application using prost with
 ## Key Dependencies
 
 - Kotlin 1.9.20 (compile to JVM 1.8 bytecode)
-- Servlet API 2.5 (provided scope)
-- Apache Commons FileUpload (for multipart handling)
-- JUnit 4.12 (testing)
-- Jetty 9.4.53 (sample application only)
+- Jakarta Servlet API 6.0.0 (provided scope)
+- Apache Commons FileUpload2 2.0.0-M2 (for multipart handling)
+- JUnit 4.13.2 (testing)
+- Jetty 12.0.24 (sample application only)
