@@ -9,7 +9,7 @@
   <version>0.2</version>
 
   <name>${project.groupId}:${project.artifactId}</name>
-  <description>A featherlight REST-framework for Java.</description>
+  <description>A featherlight REST-framework for Kotlin/JVM.</description>
   <url>https://github.com/prebenl/prost</url>
 
   <licenses>

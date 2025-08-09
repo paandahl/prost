@@ -2,7 +2,7 @@
 
 Notice: This repository is no longer being maintained, as I have switched my server side efforts towards node.js.
 
-A featherlight REST-framework for Java Servlets. Perfect for bridging server side code with an AngularJS client. Runs well on Google App Engine.
+A featherlight REST-framework for Kotlin/JVM Servlets. Perfect for bridging server side code with an AngularJS client. Runs well on Google App Engine.
 
 ## Configuration
 
@@ -18,15 +18,16 @@ We publish releases to the central maven repository. Add a dependency to your po
 
 ## Usage
 
-Create a normal class, and use @RestMethod-annotations to expose your API.
+Create a normal Kotlin object, and use @RestMethod-annotations to expose your API.
 
-```java
-public class RestHandler {
+```kotlin
+object RestHandler {
 
-  @RestMethod("/hello")
-  public static HttpResponse hello() {
-    return new HttpResponse(200, "Hello, World!");
-  }
+    @JvmStatic
+    @RestMethod("/hello")
+    fun hello(): HttpResponse {
+        return HttpResponse(200, "Hello, World!")
+    }
 }
 ```
     
@@ -40,17 +41,15 @@ Register your class with the prost RequestHandler, f.ex. through a context-liste
 
 Example of context-listener:
 
-```java
-public class ConfigurationListener implements ServletContextListener {
-  protected RequestHandler requestHandler = new RequestHandler();
+```kotlin
+class ConfigurationListener : ServletContextListener {
+    private val requestHandler = RequestHandler()
 
-  @Override
-  public void contextInitialized(ServletContextEvent event) {
-    requestHandler.setRestHandler(MyRestHandlers.class);
-  }
+    override fun contextInitialized(event: ServletContextEvent) {
+        requestHandler.setRestHandler(MyRestHandlers::class.java)
+    }
   
-  @Override
-  public void contextDestroyed(ServletContextEvent servletContextEvent) {}
+    override fun contextDestroyed(servletContextEvent: ServletContextEvent) {}
 }
 ```
 
