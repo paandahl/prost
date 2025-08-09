@@ -1,33 +1,28 @@
 package com.tripfinger.commons.prost
 
+import com.tripfinger.commons.prost.annotations.Guard
+import com.tripfinger.commons.prost.annotations.Open
 import com.tripfinger.commons.prost.annotations.RestMethod
+import com.tripfinger.commons.prost.annotations.UrlParam
 import com.tripfinger.commons.prost.model.Authorizer
 import com.tripfinger.commons.prost.model.HttpMethod
 import com.tripfinger.commons.prost.model.HttpResponse
-import com.tripfinger.commons.prost.utils.Tuple
-import com.tripfinger.commons.prost.annotations.Guard
-import com.tripfinger.commons.prost.annotations.Open
-import com.tripfinger.commons.prost.annotations.UrlParam
 import com.tripfinger.commons.prost.utils.StreamUtils
-import org.apache.commons.fileupload.FileItemIterator
-import org.apache.commons.fileupload.FileItemStream
+import com.tripfinger.commons.prost.utils.Tuple
 import org.apache.commons.fileupload.FileUploadException
 import org.apache.commons.fileupload.disk.DiskFileItemFactory
 import org.apache.commons.fileupload.servlet.ServletFileUpload
-
-import javax.servlet.ServletException
-import javax.servlet.http.HttpServlet
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 import java.io.IOException
-import java.io.InputStream
 import java.io.PrintWriter
 import java.io.StringWriter
-import java.lang.annotation.Annotation
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 import java.nio.charset.StandardCharsets
 import java.util.*
+import javax.servlet.ServletException
+import javax.servlet.http.HttpServlet
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 class RequestHandler : HttpServlet() {
 
