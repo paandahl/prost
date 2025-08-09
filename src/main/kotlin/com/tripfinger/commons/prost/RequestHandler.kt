@@ -1,33 +1,28 @@
 package com.tripfinger.commons.prost
 
+import com.tripfinger.commons.prost.annotations.Guard
+import com.tripfinger.commons.prost.annotations.Open
 import com.tripfinger.commons.prost.annotations.RestMethod
+import com.tripfinger.commons.prost.annotations.UrlParam
 import com.tripfinger.commons.prost.model.Authorizer
 import com.tripfinger.commons.prost.model.HttpMethod
 import com.tripfinger.commons.prost.model.HttpResponse
-import com.tripfinger.commons.prost.utils.Tuple
-import com.tripfinger.commons.prost.annotations.Guard
-import com.tripfinger.commons.prost.annotations.Open
-import com.tripfinger.commons.prost.annotations.UrlParam
 import com.tripfinger.commons.prost.utils.StreamUtils
-import org.apache.commons.fileupload.FileItemIterator
-import org.apache.commons.fileupload.FileItemStream
-import org.apache.commons.fileupload.FileUploadException
-import org.apache.commons.fileupload.disk.DiskFileItemFactory
-import org.apache.commons.fileupload.servlet.ServletFileUpload
-
-import javax.servlet.ServletException
-import javax.servlet.http.HttpServlet
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+import com.tripfinger.commons.prost.utils.Tuple
+import org.apache.commons.fileupload2.core.FileUploadException
+import org.apache.commons.fileupload2.core.DiskFileItemFactory
+import org.apache.commons.fileupload2.jakarta.servlet6.JakartaServletFileUpload
 import java.io.IOException
-import java.io.InputStream
 import java.io.PrintWriter
 import java.io.StringWriter
-import java.lang.annotation.Annotation
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 import java.nio.charset.StandardCharsets
 import java.util.*
+import jakarta.servlet.ServletException
+import jakarta.servlet.http.HttpServlet
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 
 class RequestHandler : HttpServlet() {
 
@@ -124,11 +119,11 @@ class RequestHandler : HttpServlet() {
         var body: String? = null
         val items = HashMap<String, ByteArray>()
         
-        if (ServletFileUpload.isMultipartContent(req)) {
+        if (JakartaServletFileUpload.isMultipartContent(req)) {
             try {
-                val factory = DiskFileItemFactory()
-                factory.sizeThreshold = 100_000_000
-                val upload = ServletFileUpload(factory)
+                val factory = DiskFileItemFactory.builder().get()
+                val upload = JakartaServletFileUpload(factory)
+                upload.sizeMax = 100_000_000L
                 val iterator = upload.getItemIterator(req)
                 
                 while (iterator.hasNext()) {
@@ -136,7 +131,7 @@ class RequestHandler : HttpServlet() {
                     val name = item.fieldName
 
                     if (!item.isFormField) {
-                        items[name] = StreamUtils.readBytesFromInputStream(item.openStream())
+                        items[name] = StreamUtils.readBytesFromInputStream(item.inputStream)
                     }
                 }
             } catch (e: FileUploadException) {

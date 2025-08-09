@@ -1,0 +1,15 @@
+# Ignore Maven build artifacts
+target/
+dependency-reduced-pom.xml
+
+# Ignore IDE files
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
